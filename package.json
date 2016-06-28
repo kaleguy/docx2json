@@ -1,8 +1,8 @@
 {
-  "name": "word-converter",
+  "name": "docx-converter",
   "version": "0.2.0",
-  "description": "Convert from .docx to JSON and other outputs.",
-  "main": "app.js",
+  "description": "Convert from .docx to JSON.",
+  "main": "w2j.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,6 +12,10 @@
     "docx",
     "json"
   ],
+  "repository" : {
+    "type" : "git"
+  , "url" : "https://github.com/kaleguy/docx2json.git"
+  }
   "author": "kaleguy",
   "license": "MIT",
   "dependencies": {
