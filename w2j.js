@@ -15,12 +15,12 @@ if (argv.help){
 
     Options:
       --help: this message
-      --outdir: output directory, default is 'output'
+      --outdir=path/to/output: output directory, default is 'output'
     `);
     process.exit(0);
 }
 
-var converter = new Converter(this);
+var converter = new Converter(argv);
 var path = (argv._[0]);
 if (! path){
     console.log("Full file path required.");

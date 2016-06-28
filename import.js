@@ -1,21 +1,26 @@
 'use strict';
 
 let outputDir = 'output'; // default
+
 const path = require('path');
 const xslt4node = require('xslt4node');
 const extract = require('extract-zip');
-const fs = require('fs');
+const fs = require('fs-extra');
 const DOMParser = require('xmldom').DOMParser;
 const XMLSerializer = require('xmldom').XMLSerializer;
 const async = require('async');
 const _ = require('lodash');
 const Q = require('q');
+const mv = require('mv');
+const fileExists = require('file-exists');
+let config = {};
 
-function Convert(app) {
+function Convert(options) {
     if (!(this instanceof Convert)) {
-        return new Convert(app);
+        return new Convert(options);
     }
     this.init();
+    config = options;
 }
 
 /**
@@ -270,7 +275,18 @@ Convert.prototype.import = function (sourcePath, outDir) {
     };
 
     let _cleanup = ()=> {
-      process.exit(0);
+        try {
+            fs.copySync(sourceFile.outDir + '/word/media', sourceFile.outDir + '/media');
+        } catch(e){
+            // no media files
+        }
+        if (config.cleanup) {
+            fs.removeSync(sourceFile.outDir + '/word');
+            fs.removeSync(sourceFile.outDir + '/_rels');
+            fs.removeSync(sourceFile.outDir + '/docProps');
+            fs.removeSync(sourceFile.outDir + '/*.xml');
+        }
+        process.exit(0);
     };
 
     // start the import process
