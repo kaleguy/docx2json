@@ -15,6 +15,7 @@ if (argv.help){
 
     Options:
       --help: this message
+      --cleanup: delete intermediate files in output directory
       --outdir=path/to/output: output directory, default is 'output'
     `);
     process.exit(0);
