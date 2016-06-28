@@ -37,6 +37,11 @@ Convert.prototype.init = function () {
     console.log('Initialized.')
 };
 
+/**
+ * Main import function
+ * @param {string } sourcePath - path to input docx file.
+ * @param {string } outDir - output folder
+ */
 Convert.prototype.import = function (sourcePath, outDir) {
 
     if (outDir) {
@@ -100,6 +105,11 @@ Convert.prototype.import = function (sourcePath, outDir) {
         });
     };
 
+    /**
+     * Put together the separate xml files unzipped from the docx file,
+     * then transform them with XSL.
+     * @private
+     */
     let _getXMLAndTransform = function () {
         let paths = [
             'word/document.xml',
@@ -294,6 +304,14 @@ Convert.prototype.import = function (sourcePath, outDir) {
 
 };
 
+/**
+ * Utility function, takes an array and an element, gets all
+ * child data from list item nodes. Returns nested arrays
+ * corresponding to the DOM subtree.
+ * @param list
+ * @param el
+ * @returns {*}
+ */
 function getJsonFromDomList(list, el) {
     if (el.tagName === 'li') {
         return list.push(el.textContent);
