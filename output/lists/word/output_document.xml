@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><xml>
+<head>
+<created>2016-06-27T12:38:34Z</created>
+<creator/>
+<description>A test document for list items.</description>
+<language>en-US</language>
+<modified>2016-06-27T22:03:13Z</modified>
+<subject>Sample List Items</subject>
+<title>List Document</title>
+</head>
+<body>
+<item type="section" style="Normal" size="24">
+<content>Here are some bulleted lists:</content>
+</item>
+<item type="section" style="Normal" size="24">
+<content/>
+</item>
+<item type="section" style="Normal" size="24">
+<content>Cities</content>
+</item>
+<item type="section" style="Normal" size="24">
+<content/>
+</item>
+<item heading="false" type="list">
+<content>
+<ul type="0" wtype="bullet">
+<li lvl="0">New York</li>
+<ul type="0" wtype="bullet">
+<li lvl="1">Brooklyn</li>
+<li lvl="1">Bronx</li>
+<li lvl="1">Manhattan</li>
+<li lvl="1">Queens</li>
+<li lvl="1">Staten Island</li>
+</ul>
+<li lvl="0">Chicago</li>
+<li lvl="0">LA</li>
+<li lvl="0">San Francisco</li>
+<li lvl="0">Seattle</li>
+</ul>
+</content>
+</item>
+<item heading="false" type="list">
+<content>
+<ul type="0" wtype="bullet">
+<li lvl="0">Chicago</li>
+<li lvl="0">LA</li>
+<li lvl="0">San Francisco</li>
+<li lvl="0">Seattle</li>
+</ul>
+</content>
+</item>
+<item type="section" style="Normal" size="24">
+<content/>
+</item>
+<item type="section" style="Normal" size="24">
+<content/>
+</item>
+<item type="section" style="Normal" size="24">
+<content>Fruit</content>
+</item>
+<item type="section" style="Normal" size="24">
+<content/>
+</item>
+<item heading="false" type="list">
+<content>
+<ol type="1" wtype="decimal">
+<li lvl="0">Apples</li>
+<li lvl="0">Oranges</li>
+<li lvl="0">Limes</li>
+<li lvl="0">Lemons</li>
+<li lvl="0">Melons</li>
+<li lvl="0">Bananas</li>
+</ol>
+</content>
+</item>
+</body>
+</xml>

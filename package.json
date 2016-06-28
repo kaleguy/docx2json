@@ -1,0 +1,27 @@
+{
+  "name": "word-converter",
+  "version": "0.2.0",
+  "description": "Convert from .docx to JSON and other outputs.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "XSL",
+    "Word",
+    "docx",
+    "json"
+  ],
+  "author": "kaleguy",
+  "license": "MIT",
+  "dependencies": {
+    "async": "^2.0.0-rc.6",
+    "extract-zip": "^1.5.0",
+    "file-extension": "^2.0.1",
+    "lodash": "^4.13.1",
+    "minimist": "^1.2.0",
+    "q": "^1.4.1",
+    "xmldom": "^0.1.22",
+    "xslt4node": "^0.3.1"
+  }
+}
