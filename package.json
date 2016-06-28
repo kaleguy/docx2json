@@ -30,5 +30,8 @@
     "q": "^1.4.1",
     "xmldom": "^0.1.22",
     "xslt4node": "^0.3.1"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.4.0"
   }
 }

@@ -15,6 +15,12 @@ const mv = require('mv');
 const fileExists = require('file-exists');
 let config = {};
 
+/**
+ * Constructor
+ * @param {object} options - config options
+ * @returns {Convert}
+ * @constructor
+ */
 function Convert(options) {
     if (!(this instanceof Convert)) {
         return new Convert(options);
