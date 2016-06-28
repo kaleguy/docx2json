@@ -37,26 +37,25 @@ If you get node-gyp errors, it may be because you need to install Java.
 
 To convert a document, place it in the 'input' folder, then run:
 
-    node input/myfile.docx
+    node w2j.js input/myfile.docx
     
 The output files will be written to the 'output' folder.
     
 ## About
     
-Most of the conversion is accomplished via XSL. Parts of the XSL file were adapted from [docx2md](https://github.com/matb33/docx2md)
+Most of the conversion is accomplished via XSL. Parts of the XSL file were 
+adapted from [docx2md](https://github.com/matb33/docx2md)
 
-Docx files are zipped collections of xml and image file. This utility creates
+Docx files are zipped collections of xml and image files. This utility creates
 a directory with the same name as the file in the 'output' directory. It then 
-unzips the docs file to that named directory. It then creates a file called 
+unzips the docs file to that named directory. Then it creates a file called 
 'imported__document.xml' with all of the unzipped xml files put into one. This
-xml file is then transformed with an XSL stylesheet into 'output_document.xml'. 
+xml file is then transformed with an XSL stylesheet into the file 'output_document.xml'. 
 This output file is then converted to JSON, and a file 'myfile.json' is written
 to the directory with the same name as the file. 
 
 Several examples are in the output folder in the project.
  
- 
-
 
 ## License
  
