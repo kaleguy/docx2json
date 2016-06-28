@@ -35,11 +35,22 @@ If you get node-gyp errors, it may be because you need to install Java.
 
 ## Use
 
-To convert a document, place it in the 'input' folder, then run:
+To convert a document, place it in the 'input' folder, then run (example, from
+terminal window in project folder):
+
+    node w2j.js input/myfile.docx
+
+Or run as command line script:
+
+    chmod +x input/myfile.docx
 
     node w2j.js input/myfile.docx
     
 The output files will be written to the 'output' folder.
+
+For more options run
+
+    node w2j.js input/myfile.docx --help
     
 ## About
     

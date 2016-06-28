@@ -134,7 +134,9 @@ Convert.prototype.import = function (sourcePath, outDir) {
             }
         };
         xslt4node.transform(config, (err, result) => {
-            _writeXML(result, '/word/output_document.xml').then(() => _createJsonOutput(result));
+            _writeXML(result, '/word/output_document.xml')
+                .then(() => _createJsonOutput(result))
+                .then(() => _cleanup());
         });
 
     };
@@ -218,7 +220,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
                 wordJson[el.tagName] = el.textContent;
             }
         });
-        _writeWordJson(wordJson);
+        return _writeWordJson(wordJson);
 
     };
 
@@ -254,14 +256,21 @@ Convert.prototype.import = function (sourcePath, outDir) {
     };
 
     let _writeWordJson = (wordJson) => {
+        var deferred = Q.defer();
         var outPath = sourceFile.outDir + '/' + sourceFile.basename + ".json";
         fs.writeFile(outPath, JSON.stringify(wordJson), (err) => {
             if (err) {
-                return console.log(err);
+                console.log(err);
+                return deferred.reject(err);
             }
             console.log('Conversion finished.');
-            process.exit(0);
+            return deferred.resolve();
         });
+        return deferred.promise;
+    };
+
+    let _cleanup = ()=> {
+      process.exit(0);
     };
 
     // start the import process
