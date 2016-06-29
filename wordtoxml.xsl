@@ -93,6 +93,16 @@
             <xsl:when test="w:pPr/w:numPr">
                 <xsl:apply-templates select="self::*" mode="ol"/>
             </xsl:when>
+            <xsl:when test="w:r/w:drawing">
+                <item
+                        type="image"
+                        style="{w:pPr/w:pStyle/@w:val}"
+                        size="{/w:document/w:styles/w:style[@w:styleId=$style]/w:rPr/w:sz/@w:val}">
+                    <content>
+                        <xsl:apply-templates/>
+                    </content>
+                </item>
+            </xsl:when>
             <xsl:otherwise>
                 <item
                         type="section"
@@ -107,15 +117,11 @@
     </xsl:template>
     <xsl:template match="w:r">
         <xsl:choose>
-            <xsl:when test="w:rPr/w:b">
-                <b>
-                    <xsl:apply-templates/>
-                </b>
+            <xsl:when test="w:rPr/w:b[@wval=true]">
+                <b><xsl:apply-templates/></b>
             </xsl:when>
-            <xsl:when test="w:rPr/w:i">
-                <i>
-                    <xsl:apply-templates/>
-                </i>
+            <xsl:when test="w:rPr/w:i[@wval=true]">
+                <i><xsl:apply-templates/></i>
             </xsl:when>
             <xsl:when test="w:rPr/w:highlight">
                 <highlight color="{w:rPr/w:highlight/@w:val}">
@@ -387,8 +393,7 @@
         <xsl:apply-templates select=".//a:blip"/>
     </xsl:template>
     <xsl:template match="a:blip">
-        <xsl:variable name="id" select="@r:embed"/>&#8203;
-        <img>
+        <xsl:variable name="id" select="@r:embed"/><img>
             <xsl:attribute name="src">
                 <xsl:value-of select="/w:document/rels:Relationships/rels:Relationship[@Id=$id]/@Target"/>
             </xsl:attribute>
@@ -398,8 +403,7 @@
             <xsl:attribute name="height">
                 <xsl:value-of select="round( ancestor::w:drawing[1]//wp:extent/@cy div 9525 )"/>
             </xsl:attribute>
-        </img>
-    </xsl:template>
+        </img></xsl:template>
 
     <!-- tables -->
     <xsl:template match="w:tbl">

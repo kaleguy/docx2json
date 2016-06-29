@@ -12,7 +12,8 @@ const async = require('async');
 const _ = require('lodash');
 const Q = require('q');
 const mv = require('mv');
-const fileExists = require('file-exists');
+const Datauri = require('datauri');
+const datauri = new Datauri();
 let config = {};
 
 /**

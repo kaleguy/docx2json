@@ -1,1 +1,72 @@
-{"items":[{"type":"section","style":"Normal","size":"24","content":"Here are some bulleted lists:"},{"type":"section","style":"Normal","size":"24","content":"Cities"},{"heading":false,"type":"list","content":"<ul type=\"0\" wtype=\"bullet\"><li lvl=\"0\">New York</li><ul type=\"0\" wtype=\"bullet\"><li lvl=\"1\">Brooklyn</li><li lvl=\"1\">Bronx</li><li lvl=\"1\">Manhattan</li><li lvl=\"1\">Queens</li><li lvl=\"1\">Staten Island</li></ul><li lvl=\"0\">Chicago</li><li lvl=\"0\">LA</li><li lvl=\"0\">San Francisco</li><li lvl=\"0\">Seattle</li></ul>","list":["New York",["Brooklyn","Bronx","Manhattan","Queens","Staten Island"],"Chicago","LA","San Francisco","Seattle"]},{"heading":false,"type":"list","content":"<ul type=\"0\" wtype=\"bullet\"><li lvl=\"0\">Chicago</li><li lvl=\"0\">LA</li><li lvl=\"0\">San Francisco</li><li lvl=\"0\">Seattle</li></ul>","list":["Chicago","LA","San Francisco","Seattle"]},{"type":"section","style":"Normal","size":"24","content":"Fruit"},{"heading":false,"type":"list","content":"<ol type=\"1\" wtype=\"decimal\"><li lvl=\"0\">Apples</li><li lvl=\"0\">Oranges</li><li lvl=\"0\">Limes</li><li lvl=\"0\">Lemons</li><li lvl=\"0\">Melons</li><li lvl=\"0\">Bananas</li></ol>","list":["Apples","Oranges","Limes","Lemons","Melons","Bananas"]}],"created":"2016-06-27T12:38:34Z","creator":"","description":"A test document for list items.","language":"en-US","modified":"2016-06-27T22:03:13Z","subject":"Sample List Items","title":"List Document"}
+{
+  "items": [
+    {
+      "type": "section",
+      "style": "Normal",
+      "size": "24",
+      "content": "Here are some bulleted lists:"
+    },
+    {
+      "type": "section",
+      "style": "Normal",
+      "size": "24",
+      "content": "Cities"
+    },
+    {
+      "heading": false,
+      "type": "list",
+      "content": "<ul type=\"0\" wtype=\"bullet\"><li lvl=\"0\">New York</li><ul type=\"0\" wtype=\"bullet\"><li lvl=\"1\">Brooklyn</li><li lvl=\"1\">Bronx</li><li lvl=\"1\">Manhattan</li><li lvl=\"1\">Queens</li><li lvl=\"1\">Staten Island</li></ul><li lvl=\"0\">Chicago</li><li lvl=\"0\">LA</li><li lvl=\"0\">San Francisco</li><li lvl=\"0\">Seattle</li></ul>",
+      "list": [
+        "New York",
+        [
+          "Brooklyn",
+          "Bronx",
+          "Manhattan",
+          "Queens",
+          "Staten Island"
+        ],
+        "Chicago",
+        "LA",
+        "San Francisco",
+        "Seattle"
+      ]
+    },
+    {
+      "heading": false,
+      "type": "list",
+      "content": "<ul type=\"0\" wtype=\"bullet\"><li lvl=\"0\">Chicago</li><li lvl=\"0\">LA</li><li lvl=\"0\">San Francisco</li><li lvl=\"0\">Seattle</li></ul>",
+      "list": [
+        "Chicago",
+        "LA",
+        "San Francisco",
+        "Seattle"
+      ]
+    },
+    {
+      "type": "section",
+      "style": "Normal",
+      "size": "24",
+      "content": "Fruit"
+    },
+    {
+      "heading": false,
+      "type": "list",
+      "content": "<ol type=\"1\" wtype=\"decimal\"><li lvl=\"0\">Apples</li><li lvl=\"0\">Oranges</li><li lvl=\"0\">Limes</li><li lvl=\"0\">Lemons</li><li lvl=\"0\">Melons</li><li lvl=\"0\">Bananas</li></ol>",
+      "list": [
+        "Apples",
+        "Oranges",
+        "Limes",
+        "Lemons",
+        "Melons",
+        "Bananas"
+      ]
+    }
+  ],
+  "created": "2016-06-27T12:38:34Z",
+  "creator": "",
+  "description": "A test document for list items.",
+  "language": "en-US",
+  "modified": "2016-06-27T22:03:13Z",
+  "subject": "Sample List Items",
+  "title": "List Document"
+}
