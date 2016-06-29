@@ -13,7 +13,6 @@ const _ = require('lodash');
 const Q = require('q');
 const mv = require('mv');
 const Datauri = require('datauri');
-const datauri = new Datauri();
 let config = {};
 
 /**
@@ -224,9 +223,19 @@ Convert.prototype.import = function (sourcePath, outDir) {
                     });
                     item.rows = rows;
                 }
-                if (elType == "list") {
+                if (elType === "list") {
                     let list = getJsonFromDomList(null, contentEl);
                     item.list = list[0];
+                }
+                if (elType === 'image' && config.datauri){
+                    let imgEl = contentEl.getElementsByTagName('img')[0];
+                    if (imgEl){
+                        var srcPath = imgEl.getAttribute('src');
+                        if (srcPath){
+                            let datauri = new Datauri(sourceFile.outDir + '/word/' + srcPath);
+                            item.dataUri = (datauri.content);
+                        }
+                    }
                 }
             }
             if (item.content) {

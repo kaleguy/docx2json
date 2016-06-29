@@ -17,6 +17,7 @@ if (argv.help){
       --help: this message
       --cleanup: delete intermediate files in output directory
       --outdir=path/to/output: output directory, default is 'output'
+      --datauri: if true, convert image files to inline data
     `);
     process.exit(0);
 }
