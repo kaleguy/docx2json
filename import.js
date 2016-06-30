@@ -88,7 +88,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
      * @private
      */
     let _addXML = (xmlPath, callback) => {
-        var filePath = sourceFile.outDir + '/' + xmlPath;
+        let filePath = sourceFile.outDir + '/' + xmlPath;
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 if ('ENOENT' !== err.code) {
@@ -186,12 +186,11 @@ Convert.prototype.import = function (sourcePath, outDir) {
             if (linkEls) {
                 linkEls = linkEls.getElementsByTagName("link");
                 toc.links = [];
-                for (let l = 0; l < linkEls.length; l++) {
-                    let linkEl = linkEls[l];
+                _.each(linkEls, (linkEl)=> {
                     let link = {};
                     _attachAttrs(link, linkEl);
                     toc.links.push(link);
-                }
+                });
             }
             wordJson.toc = toc;
         }
@@ -230,7 +229,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
                 if (elType === 'image' && config.datauri){
                     let imgEl = contentEl.getElementsByTagName('img')[0];
                     if (imgEl){
-                        var srcPath = imgEl.getAttribute('src');
+                        let srcPath = imgEl.getAttribute('src');
                         if (srcPath){
                             let datauri = new Datauri(sourceFile.outDir + '/word/' + srcPath);
                             item.dataUri = (datauri.content);
@@ -287,17 +286,40 @@ Convert.prototype.import = function (sourcePath, outDir) {
     };
 
     let _writeWordJson = (wordJson) => {
-        var deferred = Q.defer();
-        var outPath = sourceFile.outDir + '/' + sourceFile.basename + ".json";
+        let deferred = Q.defer();
+        let outPath = sourceFile.outDir + '/' + sourceFile.basename + ".json";
         fs.writeFile(outPath, JSON.stringify(wordJson), (err) => {
             if (err) {
                 console.log(err);
                 return deferred.reject(err);
             }
-            console.log('Conversion finished.');
+            _writeMarkdown().then( ()=> {
+                console.log('Conversion finished.');
+                return deferred.resolve();
+            });
+        });
+        return deferred.promise;
+    };
+
+    let _writeMarkdown = (jsonData) => {
+        if (!config.md){
+            return Q.when();
+        }
+        let deferred = Q.defer();
+        let outPath = sourceFile.outDir + '/' + sourceFile.basename + ".md";
+        let md = _jsonToMd(jsonData);
+        fs.writeFile(outPath, md, (err) => {
+            if (err) {
+                console.log(err);
+                return deferred.reject(err);
+            }
             return deferred.resolve();
         });
         return deferred.promise;
+    };
+
+    let _jsonToMd = (jsonData) => {
+      return 'test';
     };
 
     let _cleanup = ()=> {

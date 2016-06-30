@@ -117,25 +117,16 @@
     </xsl:template>
     <xsl:template match="w:r">
         <xsl:choose>
-            <xsl:when test="w:rPr/w:b[@wval=true]">
-                <b><xsl:apply-templates/></b>
-            </xsl:when>
-            <xsl:when test="w:rPr/w:i[@wval=true]">
-                <i><xsl:apply-templates/></i>
-            </xsl:when>
-            <xsl:when test="w:rPr/w:highlight">
-                <highlight color="{w:rPr/w:highlight/@w:val}">
-                    <xsl:apply-templates/>
-                </highlight>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:apply-templates/>
-            </xsl:otherwise>
+            <xsl:when test="w:rPr/w:b[not(@w:val)]"><b><xsl:apply-templates/></b></xsl:when>
+            <xsl:when test="w:rPr/w:b[@w:val='true']"><b><xsl:apply-templates/></b></xsl:when>
+            <xsl:when test="w:rPr/w:i[not(@w:val)]"><i><xsl:apply-templates/></i></xsl:when>
+            <xsl:when test="w:rPr/w:i[@w:val='true']"><i><xsl:apply-templates/></i></xsl:when>
+            <xsl:when test="w:rPr/w:highlight"><highlight color="{w:rPr/w:highlight/@w:val}"><xsl:apply-templates/></highlight></xsl:when>
+            <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    <xsl:template match="w:t">
-        <xsl:value-of select="translate(.,'�Â','')"/>
-    </xsl:template>
+
+    <xsl:template match="w:t"><xsl:value-of select="translate(.,'�Â','')"/></xsl:template>
 
     <!--lists-->
     <!-- next template's only purpose is to fix in a bug in Word where headings
@@ -404,6 +395,11 @@
                 <xsl:value-of select="round( ancestor::w:drawing[1]//wp:extent/@cy div 9525 )"/>
             </xsl:attribute>
         </img></xsl:template>
+
+    <!-- Links -->
+    <xsl:template match="w:hyperlink"><xsl:variable name="id" select="@r:id"/><a><xsl:attribute name="href">
+                <xsl:value-of select="/w:document/rels:Relationships/rels:Relationship[@Id=$id]/@Target"/>
+            </xsl:attribute><xsl:apply-templates/></a></xsl:template>
 
     <!-- tables -->
     <xsl:template match="w:tbl">
