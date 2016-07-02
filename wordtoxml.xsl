@@ -24,7 +24,7 @@
                 <xsl:apply-templates select="w:document/cp:coreProperties"/>
             </head>
             <body>
-                <xsl:apply-templates select="w:document/w:body"/>
+                <xsl:apply-templates />
             </body>
         </xml>
     </xsl:template>
@@ -41,7 +41,29 @@
 
     </xsl:template>>
 
-    <!-- TOC, only matches TOCs that have links, otherwise they are skipped -->
+    <!-- TOC -->
+    <xsl:template match="w:p[w:pPr/w:pStyle/@w:val[starts-with(., 'ContentsHeading')]]" mode="toc">
+        <toc>
+            <heading><xsl:value-of select="."/></heading>
+            <links>
+               <xsl:apply-templates select="//w:p" mode="toc_section"/>
+            </links>
+        </toc>
+    </xsl:template>
+    <xsl:template match="w:p[w:pPr/w:pStyle/@w:val[starts-with(., 'Contents1')]]" mode="toc_section">
+       <xsl:variable name="link_text">
+           <xsl:call-template name="link_text">
+               <xsl:with-param name="link" select="w:hyperlink"/>
+           </xsl:call-template>
+       </xsl:variable>
+       <link name="{$link_text}"
+             target="{w:hyperlink/@w:anchor}"
+             style="{w:pPr/w:pStyle/@w:val}">
+       </link>
+    </xsl:template>
+    <xsl:template match="w:t" mode="toc_section"/>
+
+    <!-- Alternate TOC spec -->
     <xsl:template match="w:sdt" priority="1"/>
     <xsl:template match="w:sdt[w:sdtContent/w:p/w:hyperlink]" priority="2">
         <toc>
@@ -69,9 +91,12 @@
     </xsl:template>
     <xsl:template name="link_text">
         <xsl:param name="link"/>
+        <xsl:value-of select="$link/w:r/w:t"/>
+        <!--
         <xsl:for-each select="$link/w:r/w:t">
-            <xsl:value-of select="."/> &#160;
+            <xsl:value-of select="."/> &#160;-
         </xsl:for-each>
+        -->
     </xsl:template>
 
     <!-- Basic Content -->
@@ -79,6 +104,10 @@
         <xsl:variable name="style" select="w:pPr/w:pStyle/@w:val"/>
         <xsl:choose>
             <xsl:when test="w:pPr/w:widowControl"></xsl:when>
+            <xsl:when test="w:pPr[w:pStyle/@w:val[ starts-with( ., 'ContentsHeading' ) ] ]">
+                <xsl:apply-templates select="self::*" mode="toc"/>
+            </xsl:when>
+            <xsl:when test="w:pPr[w:pStyle/@w:val[ starts-with( ., 'Contents1' ) ] ]"/>
             <xsl:when test="w:pPr[w:pStyle/@w:val[ starts-with( ., 'Heading' ) ] ]">
                 <item
                         type="heading"
@@ -115,6 +144,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
     <xsl:template match="w:r">
         <xsl:choose>
             <xsl:when test="w:rPr/w:b[not(@w:val)]"><b><xsl:apply-templates/></b></xsl:when>
@@ -371,6 +401,7 @@
             <xsl:otherwise>1</xsl:otherwise>
         </xsl:choose>
     </xsl:template>
+
     <xsl:template name="getListType">
         <xsl:param name="nextItem"/>
         <xsl:variable name="nextNumId" select="$nextItem/w:pPr/w:numPr/w:numId/@w:val"/>
@@ -378,6 +409,7 @@
         <xsl:value-of
                 select="/w:document/w:numbering/w:abstractNum[@w:abstractNumId=$nextNumId]/w:lvl[@w:ilvl=$nextLevel]/w:numFmt/@w:val"/>
     </xsl:template>
+    <!-- End Lists -->
 
     <!-- images -->
     <xsl:template match="w:drawing">

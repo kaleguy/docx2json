@@ -13,7 +13,7 @@ tool, see [pandoc](http://www.pandoc.org).
 
 ## Installation
 
-This script uses the node java module. In order to get this to run with more recent versions of Java,
+This script uses the npm java module. In order to get this to run with more recent versions of Java,
 you will need to edit the following file (on Mac):
 
     /Library/Java/JavaVirtualMachines/<version>.jdk/Contents/Info.plist 
@@ -42,7 +42,7 @@ terminal window in project folder):
 
 Or run as command line script:
 
-    chmod +x input/myfile.docx
+    chmod +x w2j.js
 
     node w2j.js input/myfile.docx
     
@@ -60,12 +60,12 @@ adapted from [docx2md](https://github.com/matb33/docx2md)
 Docx files are zipped collections of xml and image files. This utility creates
 a directory with the same name as the file in the 'output' directory. It then 
 unzips the docs file to that named directory. Then it creates a file called 
-'imported__document.xml' with all of the unzipped xml files put into one. This
+'imported_document.xml' with all of the unzipped xml files put into one. This
 xml file is then transformed with an XSL stylesheet into the file 'output_document.xml'. 
 This output file is then converted to JSON, and a file 'myfile.json' is written
 to the directory with the same name as the file. 
 
-Several examples are in the output folder in the project.
+Several examples are in the 'input' and 'output' folders in the project.
  
 
 ## License
