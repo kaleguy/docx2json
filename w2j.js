@@ -5,8 +5,12 @@ var fs = require('fs');
 var argv = require('minimist')(process.argv.slice(2));
 
 if (argv.help){
+  displayHelp();
+}
+
+function displayHelp(){
     console.log(`
-    Script to convert docx to json and html.
+    Script to convert docx to json.
 
     Usage: node w2j.js input/myfile.docx
 
@@ -22,12 +26,13 @@ if (argv.help){
     process.exit(0);
 }
 
-var converter = new Converter(argv);
 var path = (argv._[0]);
 if (! path){
-    console.log("Full file path required.");
+    console.log("\n=== No path specified! More info about this program:");
+    displayHelp();
     process.exit(0);
 }
+var converter = new Converter(argv);
 
 fs.stat(path, (err, stat) => {
     if(err == null) {
