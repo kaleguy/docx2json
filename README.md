@@ -1,7 +1,7 @@
 # Docx to JSON
 
 This is a basic command-line utility for node that will read a .docx file 
-and convert it to JSON. It will also opitonally convert to Markdown.
+and convert it to JSON. It will also optionally convert to Markdown.
 
 The utility uses XSL to create an intermediate XML document that is then
 converted to JSON. Working with the intermediate file is simpler than
