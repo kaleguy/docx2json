@@ -7,8 +7,9 @@ The utility uses XSL to create an intermediate XML document that is then
 converted to JSON. Working with the intermediate file is simpler than
 working with the original xml files that are zipped into the docx file. The code
 in this project that converts the intermediate file to JSON can be adapted
-to produce other formats. The main purpose of this project is to provide some tools for 
-extracting the content out of a docx file. For a general purpose conversion 
+to produce other formats. The main purpose of this project is to provide some sample
+ code for 
+extracting the content out of a docx file using node.js. For a general purpose conversion 
 tool, see [pandoc](http://www.pandoc.org).
 
 ## Installation

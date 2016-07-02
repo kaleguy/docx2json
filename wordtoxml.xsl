@@ -151,7 +151,7 @@
             <xsl:when test="w:rPr/w:b[@w:val='true']"><b><xsl:apply-templates/></b></xsl:when>
             <xsl:when test="w:rPr/w:i[not(@w:val)]"><i><xsl:apply-templates/></i></xsl:when>
             <xsl:when test="w:rPr/w:i[@w:val='true']"><i><xsl:apply-templates/></i></xsl:when>
-            <xsl:when test="w:rPr/w:highlight"><highlight color="{w:rPr/w:highlight/@w:val}"><xsl:apply-templates/></highlight></xsl:when>
+            <xsl:when test="w:rPr/w:highlight"><span style="background-color:{w:rPr/w:highlight/@w:val}"><xsl:apply-templates/></span></xsl:when>
             <xsl:otherwise><xsl:apply-templates/></xsl:otherwise>
         </xsl:choose>
     </xsl:template>

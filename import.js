@@ -13,6 +13,8 @@ const _ = require('lodash');
 const Q = require('q');
 const mv = require('mv');
 const Datauri = require('datauri');
+const md = require('html-md');
+const table = require('gfm-table')
 let config = {};
 
 /**
@@ -67,7 +69,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
 
     // unzip the docx file, then get the xml files and transform
     let _extract = function () {
-        extract(sourceFile.path, {dir: sourceFile.outDir}, function (err) {
+        extract(sourceFile.path, {dir: sourceFile.outDir + '/.tmp'}, function (err) {
             if (err) {
                 return console.error(err);
             }
@@ -88,7 +90,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
      * @private
      */
     let _addXML = (xmlPath, callback) => {
-        let filePath = sourceFile.outDir + '/' + xmlPath;
+        let filePath = sourceFile.outDir + '/.tmp/' + xmlPath;
         fs.readFile(filePath, (err, data) => {
             if (err) {
                 if ('ENOENT' !== err.code) {
@@ -199,8 +201,10 @@ Convert.prototype.import = function (sourcePath, outDir) {
         _.forEach(itemEls, (itemEl) => {
             let item = {};
             _attachAttrs(item, itemEl);
+
             // get the item attributes, put in JSON
             let elType = itemEl.getAttribute("type");
+
             // convert the item content to JSON
             let contentEl = itemEl.getElementsByTagName("content")[0];
             if (contentEl) {
@@ -223,16 +227,21 @@ Convert.prototype.import = function (sourcePath, outDir) {
                     item.rows = rows;
                 }
                 if (elType === "list") {
-                    let list = getJsonFromDomList(null, contentEl);
-                    item.list = list[0];
+                    let list = domListToJson(null, contentEl);
+                    item.list = list.list;
                 }
-                if (elType === 'image' && config.datauri){
+                if (elType === 'image') {
                     let imgEl = contentEl.getElementsByTagName('img')[0];
-                    if (imgEl){
-                        let srcPath = imgEl.getAttribute('src');
-                        if (srcPath){
-                            let datauri = new Datauri(sourceFile.outDir + '/word/' + srcPath);
-                            item.dataUri = (datauri.content);
+                    if (imgEl) {
+                        let src = imgEl.getAttribute('src');
+                        if (src) {
+                            item.src = src;
+                            item.height = imgEl.getAttribute('height');
+                            item.width = imgEl.getAttribute('width');
+                            if (config.datauri) {
+                                let datauri = new Datauri(sourceFile.outDir + '/.tmp/word/' + src);
+                                item.dataUri = (datauri.content);
+                            }
                         }
                     }
                 }
@@ -269,13 +278,13 @@ Convert.prototype.import = function (sourcePath, outDir) {
     };
 
     let _writeWordXML = () => {
-        return _writeXML(this.WordXML, '/word/imported_document.xml');
+        return _writeXML(this.WordXML, 'word/imported_document.xml');
     };
 
     let _writeXML = (xml, filePath) => {
         let deferred = Q.defer();
         let xmlString = new XMLSerializer().serializeToString(xml);
-        fs.writeFile(sourceFile.outDir + filePath, xmlString, (err) => {
+        fs.writeFile(sourceFile.outDir + '/.tmp/' + filePath, xmlString, (err) => {
             if (err) {
                 console.log(err);
                 return deferred.reject(err);
@@ -293,7 +302,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
                 console.log(err);
                 return deferred.reject(err);
             }
-            _writeMarkdown().then( ()=> {
+            _writeMarkdown(wordJson).then( ()=> {
                 console.log('Conversion finished.');
                 return deferred.resolve();
             });
@@ -319,20 +328,46 @@ Convert.prototype.import = function (sourcePath, outDir) {
     };
 
     let _jsonToMd = (jsonData) => {
-      return 'test';
+      let mdOut = [];
+      jsonData.items.forEach((item)=>{
+          switch (item.type) {
+              case 'section' :
+                  mdOut.push(md(item.content));
+                  break;
+              case 'table' :
+                  mdOut.push(table(item.rows));
+                  break;
+              case 'list' :
+                  mdOut.push(md(item.content));
+                  break;
+              case 'image' :
+                  if (item.dataUri) {
+                      mdOut.push('![](' + item.dataUri + ')');
+                  } else {
+                      mdOut.push('![](' + item.src + ')');
+                  }
+                  break;
+              case 'heading' :
+                  let level = item.style.match(/(\d)/)[0]/1;
+                  let hashes = '';
+                  for (let i = 0; i < level; i++){
+                      hashes = hashes + '#';
+                  }
+                  mdOut.push(hashes + item.content);
+                  break;
+          }
+      });
+      return mdOut.join("\n\n");
     };
 
     let _cleanup = ()=> {
         try {
-            fs.copySync(sourceFile.outDir + '/word/media', sourceFile.outDir + '/media');
+            fs.copySync(sourceFile.outDir + '/.tmp/word/media', sourceFile.outDir + '/media');
         } catch(e){
             // no media files
         }
-        if (config.cleanup) {
-            fs.removeSync(sourceFile.outDir + '/word');
-            fs.removeSync(sourceFile.outDir + '/_rels');
-            fs.removeSync(sourceFile.outDir + '/docProps');
-            fs.removeSync(sourceFile.outDir + '/*.xml');
+        if (!config.no_cleanup) {
+            fs.removeSync(sourceFile.outDir + '/.tmp');
         }
         process.exit(0);
     };
@@ -350,26 +385,32 @@ Convert.prototype.import = function (sourcePath, outDir) {
  * @param el
  * @returns {*}
  */
-function getJsonFromDomList(list, el) {
+function domListToJson(list, el) {
+
     if (el.tagName === 'li') {
-        return list.push(el.textContent);
+        return list.data.push(el.textContent);
     }
+
     let children = el.childNodes;
     if (!children) {
         return;
     }
-    let childList = [];
+    let childList = {};
+    childList.type = el.tagName;
+    childList.data = [];
     if (list) {
-        list.push(childList);
+        list.list = childList;
     } else {
         list = childList;
     }
     _.forEach(children, (child) => {
         if (child.nodeType !== 3) {
-            getJsonFromDomList(childList, child);
+            domListToJson(childList, child);
         }
     });
     return list;
+
 }
+
 
 module.exports = Convert;

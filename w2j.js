@@ -19,7 +19,7 @@ function displayHelp(){
 
     Options:
       --help: this message
-      --cleanup: delete intermediate files in output directory
+      --no_cleanup: don't delete intermediate files in output directory
       --outdir=path/to/output: output directory, default is 'output'
       --datauri: if true, convert image files to inline data
     `);
@@ -38,7 +38,8 @@ fs.stat(path, (err, stat) => {
     if(err == null) {
         converter.import(path, argv.outdir);
     } else {
-        console.log('Invalid file path:', err)
+        console.log('Invalid file path: ' + path + '\n\n', err);
+        process.exit();
     }
 });
 

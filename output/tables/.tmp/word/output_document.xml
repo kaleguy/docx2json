@@ -2,11 +2,11 @@
 <head>
 <created>2016-06-28T00:34:23Z</created>
 <creator/>
-<description/>
+<description>This is a test doc for tables.</description>
 <language>en-US</language>
-<modified>2016-06-28T00:37:57Z</modified>
-<subject/>
-<title/>
+<modified>2016-06-28T00:40:22Z</modified>
+<subject>Sample Table Doc</subject>
+<title>Tables</title>
 </head>
 <body>
 <item type="section" style="Title" size="56">
@@ -87,5 +87,12 @@
 <item type="section" style="TextBody" size="">
 <content/>
 </item>
+<created>2016-06-28T00:34:23Z</created>
+<creator/>
+<description>This is a test doc for tables.</description>
+<language>en-US</language>
+<modified>2016-06-28T00:40:22Z</modified>
+<subject>Sample Table Doc</subject>
+<title>Tables</title>
 </body>
 </xml>
