@@ -22,6 +22,7 @@ function displayHelp(){
       --no_cleanup: don't delete intermediate files in output directory
       --outdir=path/to/output: output directory, default is 'output'
       --datauri: if true, convert image files to inline data
+      --md: make md output file
     `);
     process.exit(0);
 }

@@ -329,6 +329,13 @@ Convert.prototype.import = function (sourcePath, outDir) {
 
     let _jsonToMd = (jsonData) => {
       let mdOut = [];
+      let toc = jsonData.toc;
+      if (toc){
+          mdOut.push('#' + toc.heading);
+          toc.links.forEach((link)=>{
+            mdOut.push(link.name);
+          })
+      }
       jsonData.items.forEach((item)=>{
           switch (item.type) {
               case 'section' :
