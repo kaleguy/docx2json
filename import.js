@@ -14,7 +14,8 @@ const Q = require('q');
 const mv = require('mv');
 const Datauri = require('datauri');
 const md = require('html-md');
-const table = require('gfm-table')
+const table = require('gfm-table');
+const json = require('format-json');
 let config = {};
 
 /**
@@ -297,7 +298,7 @@ Convert.prototype.import = function (sourcePath, outDir) {
     let _writeWordJson = (wordJson) => {
         let deferred = Q.defer();
         let outPath = sourceFile.outDir + '/' + sourceFile.basename + ".json";
-        fs.writeFile(outPath, JSON.stringify(wordJson), (err) => {
+        fs.writeFile(outPath, json.plain(wordJson), (err) => {
             if (err) {
                 console.log(err);
                 return deferred.reject(err);

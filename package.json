@@ -25,6 +25,7 @@
     "extract-zip": "^1.5.0",
     "file-exists": "^1.0.0",
     "file-extension": "^2.0.1",
+    "format-json": "^1.0.3",
     "fs-extra": "^0.30.0",
     "gfm-table": "^0.1.0",
     "html-md": "^3.0.2",
